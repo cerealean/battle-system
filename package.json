@@ -2,14 +2,13 @@
   "name": "battle-system",
   "version": "0.0.1",
   "description": "Simple, reusable battle system",
-  "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "mocha",
     "clean": "rimraf ./build",
     "build": "npm run clean && npx tsc"
   },
   "author": "Michael Crawford",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.2.10",
     "@types/mocha": "^7.0.2",

@@ -1,13 +1,22 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { HealthChangeEvent } from './events/health-change-event';
-
 export type OnBeforeHealthChangeAction = (event: HealthChangeEvent) => void;
 
 export class Entity {
-    public maxHealth = 1; 
     public immortal = false;
     public readonly identifier = uuidv4();
+
+    private _maxHealth = 1;
+    set maxHealth(value: number) {
+        if(value <= 0) {
+            throw new Error("Maximum health cannot be less than 0");
+        }
+        this._maxHealth = value;
+    }
+    get maxHealth() {
+        return this._maxHealth;
+    }
 
     //#region Current Health
     private _currentHealth$ = new BehaviorSubject(this.maxHealth);
@@ -22,7 +31,7 @@ export class Entity {
         } else if(newHealth < 0){
             this._currentHealth$.next(0);
         } else {
-            this._currentHealth$.next(newHealth);
+            this._currentHealth$.next(onBeforeEvent.NewHealth);
         }
     }
     get currentHealth(): number {
@@ -49,9 +58,13 @@ export class Entity {
     }
     private ExecuteOnBeforeHealthChangeActions(oldHealth: number, newHealth: number): HealthChangeEvent {
         const event = new HealthChangeEvent(oldHealth, newHealth);
-        this._onBeforeHealthChangeActions.forEach(action => {
+
+        for(let action of this._onBeforeHealthChangeActions) {
             action(event);
-        });
+            if(event.PropogationStopped) {
+                break;
+            }
+        }
 
         return event;
     }
