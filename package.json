@@ -11,11 +11,13 @@
   "author": "Michael Crawford",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^3.8.3",
     "@types/node": "^13.9.0",
-    "rimraf": "^3.0.2"
+    "@types/uuid": "^7.0.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "uuid": "^7.0.2"
   }
 }

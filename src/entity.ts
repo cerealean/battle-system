@@ -1,32 +1,34 @@
 import { BehaviorSubject, Observable } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { HealthChangeEvent } from './events/health-change-event';
 
 export type OnBeforeHealthChangeAction = (event: HealthChangeEvent) => void;
 
 export class Entity {
-    public MaxHealth = 1; 
-    public Immortal = false;
+    public maxHealth = 1; 
+    public immortal = false;
+    public readonly identifier = uuidv4();
 
     //#region Current Health
-    private _currentHealth$ = new BehaviorSubject(this.MaxHealth);
-    set CurrentHealth(newHealth: number) {
+    private _currentHealth$ = new BehaviorSubject(this.maxHealth);
+    set currentHealth(newHealth: number) {
         const onBeforeEvent = this.ExecuteOnBeforeHealthChangeActions(this._currentHealth$.getValue(), newHealth);
         if(onBeforeEvent.Cancelled) {
             return;
         }
 
-        if(newHealth > this.MaxHealth) {
-            this._currentHealth$.next(this.MaxHealth);
+        if(newHealth > this.maxHealth) {
+            this._currentHealth$.next(this.maxHealth);
         } else if(newHealth < 0){
             this._currentHealth$.next(0);
         } else {
             this._currentHealth$.next(newHealth);
         }
     }
-    get CurrentHealth(): number {
+    get currentHealth(): number {
         return this._currentHealth$.getValue();
     }
-    get OnHealthChange(): Observable<number> {
+    get onHealthChange(): Observable<number> {
         return this._currentHealth$.asObservable();
     }
     //#endregion
@@ -34,7 +36,7 @@ export class Entity {
     //#region OnBeforeHealthChange
     private _onBeforeHealthChangeActions: OnBeforeHealthChangeAction[] = [
         (event) => {
-            if(this.Immortal) {
+            if(this.immortal) {
                 event.Cancel();
             }
         }
@@ -57,15 +59,15 @@ export class Entity {
 
     constructor(public Name: string, options?: EntityCreationOptions) {
         if(options) {
-            this.MaxHealth = options.MaxHealth;
-            this.Immortal = options.Immortal;
+            this.maxHealth = options.maxHealth;
+            this.immortal = options.immortal;
         }
     }
 }
 
 export class EntityCreationOptions 
 {
-    MaxHealth = 1;
-    Immortal = false;
+    maxHealth = 1;
+    immortal = false;
 }
 
