@@ -4,8 +4,15 @@
   "description": "Simple, reusable battle system",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "clean": "rimraf ./build",
+    "build": "npm run clean && npx tsc"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Michael Crawford",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.8.3",
+    "@types/node": "^13.9.0",
+    "rimraf": "^3.0.2"
+  }
 }
