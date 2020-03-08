@@ -8,6 +8,8 @@ export class BattleOrchestrator {
     /**
      * Execute an attack between two entities. The "performing" entity is attacking the "receiving" entity, essentially.
      * 
+     * **Will immediately cancel if the "performing" entity does not implement `CanPerformAttack` or if the "receiving" entity does not implement `CanReceiveAttack`
+     * 
      * Events go in this order:
      * 0. BeforePerformingAttack Actions from the "performing" entity
      * 0. PerformAttack from the "performing" entity
