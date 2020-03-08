@@ -1,0 +1,11 @@
+{
+  "name": "battle-system",
+  "version": "0.0.1",
+  "description": "Simple, reusable battle system",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
