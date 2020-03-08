@@ -4,7 +4,7 @@ export class HealthChangeEvent implements ChangeEvent {
     private _cancelled = false;
     private _propogationStopped = false;
 
-    constructor(public readonly OldHealth: number, public NewHealth: number) { }
+    constructor(public readonly oldHealth: number, public newHealth: number) { }
 
     get Cancelled() {
         return this._cancelled;

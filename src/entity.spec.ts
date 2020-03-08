@@ -1,5 +1,4 @@
-// import 'mocha';
-import { assert, expect } from "chai";
+import { expect } from "chai";
 import { Entity, OnBeforeHealthChangeAction } from "./entity";
 import { HealthChangeEvent } from "./events/health-change-event";
 
@@ -8,6 +7,18 @@ describe('Entity', () => {
 
     beforeEach(() => {
         entity = new Entity(new Date().getTime().toString());
+    });
+
+    it('should get a guid as an identifier upon creation', () => {
+        const guidRegex = /^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$/;
+        expect(entity.identifier).to.match(guidRegex);
+    });
+
+    it('should get a unique guid as an identifier upon creation', () => {
+        const secondEntity = new Entity('');
+        const thirdEntity = new Entity('');
+
+        expect(entity.identifier).to.not.equal(secondEntity.identifier).and.to.not.equal(thirdEntity.identifier);
     });
 
     describe('max health', () => {
@@ -61,7 +72,7 @@ describe('Entity', () => {
             entity.maxHealth = 50;
             entity.currentHealth = 50;
             entity.AddOnBeforeHealthChangeAction(event => {
-                event.NewHealth -= 35;
+                event.newHealth -= 35;
             });
 
             entity.currentHealth = 49;
@@ -73,7 +84,7 @@ describe('Entity', () => {
             entity.maxHealth = 50;
             entity.currentHealth = 50;
             const action: OnBeforeHealthChangeAction = (event: HealthChangeEvent) => {
-                event.NewHealth = 0;
+                event.newHealth = 0;
             };
             entity.AddOnBeforeHealthChangeAction(action);
             entity.currentHealth = 49;

@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { HealthChangeEvent } from './events/health-change-event';
+
 export type OnBeforeHealthChangeAction = (event: HealthChangeEvent) => void;
 
 export class Entity {
@@ -31,7 +32,7 @@ export class Entity {
         } else if(newHealth < 0){
             this._currentHealth$.next(0);
         } else {
-            this._currentHealth$.next(onBeforeEvent.NewHealth);
+            this._currentHealth$.next(onBeforeEvent.newHealth);
         }
     }
     get currentHealth(): number {
@@ -70,7 +71,7 @@ export class Entity {
     }
     //#endregion
 
-    constructor(public Name: string, options?: EntityCreationOptions) {
+    constructor(public name: string, options?: EntityCreationOptions) {
         if(options) {
             this.maxHealth = options.maxHealth;
             this.immortal = options.immortal;
