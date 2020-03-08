@@ -14,5 +14,8 @@
     "typescript": "^3.8.3",
     "@types/node": "^13.9.0",
     "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.4"
   }
 }
