@@ -8,8 +8,15 @@
     "build": "npm run clean && npx tsc",
     "examples:1": "tsc examples/two-battle-entities/index.ts"
   },
-  "author": "Michael Crawford",
+  "author": {
+    "name": "Michael Crawford",
+    "url": "https://github.com/cerealean"
+  },
   "license": "MIT",
+  "homepage": "https://github.com/cerealean/battle-system",
+  "bugs": {
+    "url": "https://github.com/cerealean/battle-system/issues"
+  },
   "devDependencies": {
     "@types/chai": "^4.2.10",
     "@types/mocha": "^7.0.2",
@@ -24,5 +31,8 @@
   "dependencies": {
     "rxjs": "^6.5.4",
     "uuid": "^7.0.2"
-  }
+  },
+  "files": [
+    "src/**/*.ts"
+  ]
 }
