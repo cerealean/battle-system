@@ -19,31 +19,27 @@ export abstract class BattleEntity extends Entity implements
         super(name, entityCreationOptions);
     }
 
-    PerformAttack(event: AttackEvent) {
+    abstract PerformAttack(event: AttackEvent): void;
 
-    }
+    abstract ReceiveAttack(event: AttackEvent): void;
 
-    ReceiveAttack(event: AttackEvent) {
-
-    }
-
-    AddOnBeforeBeingAttackedAction(action: OnBeforeBeingAttackedActionType) {
+    AddOnBeforeBeingAttackedAction(action: OnBeforeBeingAttackedActionType): void {
         this._onBeforeBeingAttackedActions.push(action);
     }
 
-    RemoveOnBeforeBeingAttackedAction(action: OnBeforeBeingAttackedActionType) {
+    RemoveOnBeforeBeingAttackedAction(action: OnBeforeBeingAttackedActionType): void {
         this._onBeforeBeingAttackedActions = this._onBeforeBeingAttackedActions.filter(a => a != action);
     }
 
-    AddOnAfterBeingAttackedAction(action: OnAfterBeingAttackedActionType) {
+    AddOnAfterBeingAttackedAction(action: OnAfterBeingAttackedActionType): void {
         this._onAfterBeingAttackedActions.push(action);
     }
 
-    RemoveOnAfterBeingAttackedAction(action: OnAfterBeingAttackedActionType) {
+    RemoveOnAfterBeingAttackedAction(action: OnAfterBeingAttackedActionType): void {
         this._onAfterBeingAttackedActions = this._onAfterBeingAttackedActions.filter(a => a != action);
     }
 
-    ExecuteOnBeforeBeingAttackedActions(event: AttackEvent) {
+    ExecuteOnBeforeBeingAttackedActions(event: AttackEvent): void {
         for (let action of this._onBeforeBeingAttackedActions) {
             action(event);
             if (event.PropogationStopped) {

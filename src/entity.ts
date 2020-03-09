@@ -4,7 +4,7 @@ import { HealthChangeEvent } from './events/health-change-event';
 
 export type OnBeforeHealthChangeAction = (event: HealthChangeEvent) => void;
 
-export class Entity {
+export abstract class Entity {
     public immortal = false;
     public readonly identifier = uuidv4();
 

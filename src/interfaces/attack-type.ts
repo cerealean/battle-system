@@ -10,4 +10,5 @@ export abstract class AttackType {
 
     IsWeakAgainst(type: AttackType): boolean {
         return this.weakAgainst.some(sa => sa.name === type.name);
-    }}
+    }
+}
