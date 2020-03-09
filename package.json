@@ -5,7 +5,8 @@
   "scripts": {
     "test": "mocha",
     "clean": "rimraf ./build",
-    "build": "npm run clean && npx tsc"
+    "build": "npm run clean && npx tsc",
+    "examples:1": "tsc examples/two-battle-entities/index.ts"
   },
   "author": "Michael Crawford",
   "license": "MIT",

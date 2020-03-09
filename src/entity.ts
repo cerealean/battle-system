@@ -10,7 +10,7 @@ export abstract class Entity {
 
     private _maxHealth = 1;
     set maxHealth(value: number) {
-        if(value <= 0) {
+        if (value <= 0) {
             throw new Error("Maximum health cannot be less than 0");
         }
         this._maxHealth = value;
@@ -20,16 +20,16 @@ export abstract class Entity {
     }
 
     //#region Current Health
-    private _currentHealth$ = new BehaviorSubject(this.maxHealth);
+    private _currentHealth$: BehaviorSubject<number>;
     set currentHealth(newHealth: number) {
         const onBeforeEvent = this.ExecuteOnBeforeHealthChangeActions(this._currentHealth$.getValue(), newHealth);
-        if(onBeforeEvent.Cancelled) {
+        if (onBeforeEvent.Cancelled) {
             return;
         }
 
-        if(newHealth > this.maxHealth) {
+        if (newHealth > this.maxHealth) {
             this._currentHealth$.next(this.maxHealth);
-        } else if(newHealth < 0){
+        } else if (newHealth < 0) {
             this._currentHealth$.next(0);
         } else {
             this._currentHealth$.next(onBeforeEvent.newHealth);
@@ -38,6 +38,7 @@ export abstract class Entity {
     get currentHealth(): number {
         return this._currentHealth$.getValue();
     }
+
     get onHealthChange(): Observable<number> {
         return this._currentHealth$.asObservable();
     }
@@ -46,7 +47,7 @@ export abstract class Entity {
     //#region OnBeforeHealthChange
     private _onBeforeHealthChangeActions: OnBeforeHealthChangeAction[] = [
         (event) => {
-            if(this.immortal) {
+            if (this.immortal) {
                 event.Cancel();
             }
         }
@@ -60,9 +61,9 @@ export abstract class Entity {
     private ExecuteOnBeforeHealthChangeActions(oldHealth: number, newHealth: number): HealthChangeEvent {
         const event = new HealthChangeEvent(oldHealth, newHealth);
 
-        for(let action of this._onBeforeHealthChangeActions) {
+        for (let action of this._onBeforeHealthChangeActions) {
             action(event);
-            if(event.PropogationStopped) {
+            if (event.PropogationStopped) {
                 break;
             }
         }
@@ -72,15 +73,15 @@ export abstract class Entity {
     //#endregion
 
     constructor(public name: string, options?: EntityCreationOptions) {
-        if(options) {
+        if (options) {
             this.maxHealth = options.maxHealth;
             this.immortal = options.immortal;
         }
+        this._currentHealth$ = new BehaviorSubject(this.maxHealth);
     }
 }
 
-export class EntityCreationOptions 
-{
+export class EntityCreationOptions {
     maxHealth = 1;
     immortal = false;
 }

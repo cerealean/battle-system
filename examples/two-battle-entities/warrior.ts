@@ -3,6 +3,7 @@ import { AttackEvent } from '../../src/events/attack-event';
 import { EntityCreationOptions } from '../../src/entity';
 import { TBEAttackTypes } from './tbe-attack-types';
 import { ChildBattleEntity } from './child-battle-entity';
+import { HealthChangeEvent } from '../../src/events/health-change-event';
 
 export class Warrior extends ChildBattleEntity {
     private _strength = Math.floor(Math.random() * 10);
@@ -17,6 +18,9 @@ export class Warrior extends ChildBattleEntity {
             if(event.damages.has(TBEAttackTypes.basic)) {
                 (Array.from(event.damages.values()) as DamageInfo[]).forEach(di => di.modifier -= (this._defense / 100));
             }
+        });
+        this.AddOnBeforeHealthChangeAction((event: HealthChangeEvent) => {
+            console.log(`Health for ${this.name} will change from ${event.oldHealth} to ${event.newHealth}`);
         });
     }
 
