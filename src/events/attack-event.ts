@@ -1,9 +1,10 @@
 import { ChangeEvent } from "./change-event";
 import { DamageInfo } from "src/damage-info";
 import { Entity } from "src/entity";
+import { AttackType } from "src/interfaces/attack-type";
 
 export class AttackEvent implements ChangeEvent {
-    public damages: DamageInfo[] = [];
+    public damages: Map<AttackType, DamageInfo> = new Map<AttackType, DamageInfo>();
 
     private _cancelled = false;
     private _cancelReason = '';

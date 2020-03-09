@@ -4,6 +4,7 @@ export abstract class AttackType {
         public strongAgainst: AttackType[] = [],
         public weakAgainst: AttackType[] = []
     ) { }
+    
     IsStrongAgainst(type: AttackType): boolean {
         return this.strongAgainst.some(sa => sa.name === type.name);
     }

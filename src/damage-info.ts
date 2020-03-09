@@ -1,4 +1,5 @@
 import { BasicAttackType } from "./basic-attack-type";
+import { AttackType } from "./interfaces/attack-type";
 
 export class DamageInfo {
     private _baseDamage: number;
@@ -6,7 +7,7 @@ export class DamageInfo {
     private _hasBeenModified = false;
     private _cancelled = false;
 
-    constructor(baseDamage = 0, modifier = 1, public readonly type = new BasicAttackType()) {
+    constructor(baseDamage: number, public readonly type: AttackType, modifier = 1) {
         this._baseDamage = baseDamage;
         this._modifier = modifier;
     }
