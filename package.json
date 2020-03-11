@@ -1,6 +1,6 @@
 {
-  "name": "battle-system",
-  "version": "0.0.1",
+  "name": "@cerealean/battle-system",
+  "version": "0.1.0",
   "description": "Simple, reusable battle system",
   "scripts": {
     "test": "mocha",
@@ -21,6 +21,10 @@
   "repository": {
     "url": "https://github.com/cerealean/battle-system.git",
     "type": "git"
+  },
+  "funding": {
+    "type": "paypal",
+    "url": "https://paypal.me/cerealean?locale.x=en_US"
   },
   "devDependencies": {
     "@types/chai": "^4.2.10",
