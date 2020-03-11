@@ -1,5 +1,5 @@
 {
-  "name": "battle-system",
+  "name": "@cerealean/battle-system",
   "version": "0.0.1",
   "description": "Simple, reusable battle system",
   "scripts": {
