@@ -1,5 +1,4 @@
-import { BasicAttackType } from "./basic-attack-type";
-import { AttackType } from "./interfaces/attack-type";
+import { AttackType } from "./attack-type";
 
 export class DamageInfo {
     private _baseDamage: number;

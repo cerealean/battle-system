@@ -1,4 +1,4 @@
-import { AttackType } from "./interfaces/attack-type";
+import { AttackType } from "./attack-type";
 
 export class BasicAttackType extends AttackType {
     constructor() {

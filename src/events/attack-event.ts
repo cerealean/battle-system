@@ -1,7 +1,7 @@
 import { ChangeEvent } from "./change-event";
 import { DamageInfo } from "src/damage-info";
 import { Entity } from "src/entity";
-import { AttackType } from "src/interfaces/attack-type";
+import { AttackType } from "src/attack-type";
 
 export class AttackEvent implements ChangeEvent {
     public damages: Map<AttackType, DamageInfo> = new Map<AttackType, DamageInfo>();
