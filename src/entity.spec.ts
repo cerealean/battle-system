@@ -2,11 +2,15 @@ import { expect } from "chai";
 import { Entity, OnBeforeHealthChangeAction } from "./entity";
 import { HealthChangeEvent } from "./events/health-change-event";
 
+class TestEntity extends Entity {
+
+}
+
 describe('Entity', () => {
     let entity: Entity;
 
     beforeEach(() => {
-        entity = new Entity(new Date().getTime().toString());
+        entity = new TestEntity(new Date().getTime().toString());
     });
 
     it('should get a guid as an identifier upon creation', () => {
@@ -15,8 +19,8 @@ describe('Entity', () => {
     });
 
     it('should get a unique guid as an identifier upon creation', () => {
-        const secondEntity = new Entity('');
-        const thirdEntity = new Entity('');
+        const secondEntity = new TestEntity('');
+        const thirdEntity = new TestEntity('');
 
         expect(entity.identifier).to.not.equal(secondEntity.identifier).and.to.not.equal(thirdEntity.identifier);
     });
