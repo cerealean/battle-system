@@ -11,8 +11,28 @@ export type OnBeforeHealthChangeAction = (
 export type OnAfterHealthChangeAction = (event: AfterHealthChangeEvent) => void;
 
 export abstract class Entity {
+  /**
+   * @description If the entity is marked as immortal, this will prevent health changes from taking place
+   */
   public immortal = false;
+
+  /**
+   * @description If true, destroy() will automatically be called upon the entity reaching 0 hit points. Set to false to prevent this from happening.
+   */
+  public destroyOnZeroHitPoints = true;
+
+  /**
+   * @description Identifier unique to this entity only. Can be used to uniquely identify entities that may share otherwise similar properties.
+   */
   public readonly identifier = uuidv4();
+
+  private _isDestroyed = false;
+  /**
+   * @description Returns if this entity has already been destroyed. If already destroyed, it should no longer be used.
+   */
+  public get isDestroyed() {
+    return this._isDestroyed;
+  }
 
   private _maxHealth = 1;
   set maxHealth(value: number) {
@@ -91,8 +111,11 @@ export abstract class Entity {
   // #region OnAfterHealthChange
   private _OnAfterHealthChangeActions: OnAfterHealthChangeAction[] = [
     () => {
-      if (this._currentHealth$.getValue() === 0) {
-        this._currentHealth$.complete();
+      if (
+        this._currentHealth$.getValue() === 0 &&
+        this.destroyOnZeroHitPoints
+      ) {
+        this.destroy();
       }
     },
   ];
@@ -124,12 +147,39 @@ export abstract class Entity {
     if (options) {
       this.maxHealth = options.maxHealth;
       this.immortal = options.immortal;
+      this.destroyOnZeroHitPoints = options.destroyOnZeroHitPoints;
+      this.identifier = options.identifier;
     }
     this._currentHealth$ = new BehaviorSubject(this.maxHealth);
+  }
+
+  /**
+   * @description This should be called whenever the entity will no longer be used and thus disposed of. Calling this method will dispose of resources being used on the entity while waiting to be garbage collected. To prevent this from happening automatically when the entity reaches 0 hit points, set the property `destroyOnZeroHitPoints` to false.
+   */
+  public destroy() {
+    if (this.isDestroyed) {
+      return;
+    }
+    this._currentHealth$.complete();
+    this._isDestroyed = true;
   }
 }
 
 export class EntityCreationOptions {
   maxHealth = 1;
+
+  /**
+   * @description If the entity is marked as immortal, this will prevent health changes from taking place
+   */
   immortal = false;
+
+  /**
+   * @description If true, destroy() will automatically be called upon the entity reaching 0 hit points. Set to false to prevent this from happening.
+   */
+  destroyOnZeroHitPoints = true;
+
+  /**
+   * @description Identifier unique to this entity only. Can be used to uniquely identify entities that may share otherwise similar properties.
+   */
+  identifier = uuidv4();
 }

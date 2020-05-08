@@ -72,6 +72,19 @@ describe('Entity', () => {
             expect(counter).to.equal(2);
         });
 
+        it('should execute onafterhealth actions on health changes', () => {
+            let counter = 0;
+            entity.AddOnAfterHealthChangeAction(() => counter++);
+
+            entity.currentHealth += 1;
+            entity.currentHealth += 1;
+            entity.currentHealth += 1;
+            entity.currentHealth += 1;
+            entity.currentHealth += 1;
+
+            expect(counter).to.equal(5);
+        });
+
         it('should allow changes to new health while executing onbeforehealth actions', () => {
             entity.maxHealth = 50;
             entity.currentHealth = 50;
@@ -114,7 +127,7 @@ describe('Entity', () => {
             sub.unsubscribe();
         });
 
-        it('should stop propogation if requested', () => {
+        it('should stop propogation in before health change actions if requested', () => {
             let counter = 0;
             entity.AddOnBeforeHealthChangeAction(event => {
                 counter++;
@@ -128,6 +141,36 @@ describe('Entity', () => {
             entity.currentHealth--;
 
             expect(counter).to.equal(2);
+        });
+
+        it('should stop propogation in after health change actions if requested', () => {
+            let counter = 0;
+            entity.AddOnAfterHealthChangeAction(event => {
+                counter++;
+                event.StopPropogation();
+            });
+            entity.AddOnAfterHealthChangeAction(() => {
+                throw new Error('should not get here');
+            });
+
+            entity.currentHealth++;
+            entity.currentHealth++;
+            entity.currentHealth--;
+
+            expect(counter).to.equal(3);
+        });
+
+        it('should destroy upon reaching 0 hit points', () => {
+            entity.currentHealth = 0;
+
+            expect(entity.isDestroyed).to.equal(true);
+        });
+
+        it('should NOT destroy upon reaching 0 hit points if destroyOnZeroHitPoints is set to false', () => {
+            entity.destroyOnZeroHitPoints = false;
+            entity.currentHealth = 0;
+
+            expect(entity.isDestroyed).to.equal(false);
         });
 
     });
