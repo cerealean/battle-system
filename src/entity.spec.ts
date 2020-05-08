@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Entity, OnBeforeHealthChangeAction } from "./entity";
-import { HealthChangeEvent } from "./events/health-change-event";
+import { BeforeHealthChangeEvent } from "./events/health-change-event";
 
 class TestEntity extends Entity {
 
@@ -87,7 +87,7 @@ describe('Entity', () => {
         it('should allow removing onbeforehealth actions', () => {
             entity.maxHealth = 50;
             entity.currentHealth = 50;
-            const action: OnBeforeHealthChangeAction = (event: HealthChangeEvent) => {
+            const action: OnBeforeHealthChangeAction = (event: BeforeHealthChangeEvent) => {
                 event.newHealth = 0;
             };
             entity.AddOnBeforeHealthChangeAction(action);
